@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+   <div> <h1 id="head">Weather Api</h1></div>
+    <div class="input"><button id="input1" onclick="getLocation()">Fetch Data</button></div>
+</div>
+ <script>
+    
+const api = "d7f25a0977ce4c9ba9891921230309";
+const para1 = document.getElementById("lat");
+    const para2 = document.getElementById("lon");
+    const map = document.getElementsByClassName("map")[0];
+
+function getLocation(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(getPrecisePosition);
+        
+    }
+    else{
+        para1.innerHTML = "Access Denied by User"
+    }
+}
+
+function getPrecisePosition(position){
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    sessionStorage.setItem("latitude", latitude);
+    sessionStorage.setItem("longitude", longitude);
+    window.location.href = "landing.html";
+
+}
+
+
+
+
+
+
+
+ </script>   
+</body>
+</html>

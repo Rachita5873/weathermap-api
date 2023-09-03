@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./landing.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h4 class="para1">Welcome To The Weather App</p>
+            <h4 class="para2">Here is your current location</p>
+            <div class="latlan">
+                <div>
+                    <p id="lat"style="background-color: #270846;color:white; width:200px;height: 50px; margin-top:0;left: 66px;
+                    "></p>
+                </div>
+                <div>
+                    <p  style="background-color: #360369;width: 20px;margin-top:0; "></p>
+                </div>
+                <div><p id="lon" style="background-color: #270846; color:white;width: 200px;height: 50px;left: 66px; margin-top:0;"></p>
+                </div>
+
+            </div>
+            <div class="map" style="margin-left: 20px; height: 200px; margin-bottom:100px; padding-bottom: 20px;">
+               
+            </div>
+        </div>
+        <div class="footer">
+            <h4 style="height: 30px;left: 66px; font-family: Montserrat;font-size: 25px;font-weight: 500; margin-top:5px; margin-bottom: 15px; text-align: left; margin-left: 5px;">Your Weather Data</h4>
+            <div class="prop1">
+                <div id="location" style="background-color: #360369; color:white;width:200px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">Location: New Delhi</div>
+                <div id="loc1" style="background-color: #360369; color:white;width:200px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">Wind Speed:100kmph</div>
+                <div id="loc2" style="background-color: #360369; color:white;width:200px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">Humidity:10</div>
+            </div>
+            <br>
+            <div class="prop2">
+                <div id="loc3" style="background-color: #360369; color:white;width:300px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">Time Zone : GMT +5:30</div>
+                <div id="loc4" style="background-color: #360369; color:white;width:200px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">Pressure: 10atm</div>
+                <div id="loc5" style="background-color: #360369; color:white;width:200px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">Wind Direction : North West</div>
+            </div>
+            <br>
+            <div class="prop3">
+                <div id="loc6" style="background-color: #360369; color:white;width:200px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">UV Index: 500</div>
+                <div id="loc7" style="background-color: #360369; color:white;width:200px;height: 30px; left: 92px; font-family: Montserrat;font-size: 20px;font-weight: 500;line-height: 30px;letter-spacing: 0em; text-align: center;">Feels like: 30°</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const map = document.getElementsByClassName("map")[0];
+        const latitude = sessionStorage.getItem("latitude");
+        const longitude = sessionStorage.getItem("longitude");
+        const location1 = document.getElementById("location");
+        const location2 = document.getElementById("loc1");
+        const location3 = document.getElementById("loc2");
+        const location4 = document.getElementById("loc3");
+        const location5 = document.getElementById("loc4");
+        const location6 = document.getElementById("loc5");
+        const location7 = document.getElementById("loc6");
+        const location8 = document.getElementById("loc7");
+        document.getElementById("lat").textContent = latitude;
+        document.getElementById("lon").textContent = longitude;
+        map.innerHTML=`<iframe width="98%" height="1000" frameborder="0" style="border:0" src="https://www.google.com/maps?q=${latitude}, ${longitude} &output=embed" allowfullscreen></iframe>`;
+
+        async function getData(){
+            try{
+            var val1 = await fetch(`https://api.weatherapi.com/v1/current.json?key=d7f25a0977ce4c9ba9891921230309&q=${latitude},${longitude}&aqi=yes`);
+            var result = await val1.json();
+            console.log(result);
+            }
+            catch (error) {
+  alert(`An exception occurred: ${error.message}`);
+}
+            
+            location1.innerHTML = `Location: ${result.location.name}`;
+            location2.innerHTML = `Wind Speed: ${result.current.wind_kph}kmph`;
+            location3.innerHTML = `Humidity: ${result.current.humidity}`;
+            location4.innerHTML = `Time Zone: ${result.location.tz_id}`;
+            location5.innerHTML = `Pressure: ${result.current.pressure_in}atm`;
+            location6.innerHTML = `Wind Direction: ${result.current.wind_dir}`;
+            location7.innerHTML = `UV Index: ${result.current.uv}`;
+            location8.innerHTML = `Feels like: ${result.current.feelslike_c}°`;
+        }
+        getData();
+    </script> 
+</body>
+
+</html>
+
